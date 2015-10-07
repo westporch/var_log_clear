@@ -7,7 +7,7 @@
 
 BASE_TARGET=/var/log
 TARGET=""
-IS_SUB_DIR=0 # 0 -> /var/log, 1: /var/log의 서브 디렉토리
+IS_SUB_DIR=0 # 0 -> /var/log, 1 -> /var/log의 서브 디렉토리
 SUB_DIR_PATH=""
 
 function check_sub_dir()
@@ -54,14 +54,13 @@ function clear_log_files()
 		 echo > $TARGET/${log_file_lists[$idx]}
 	}
 
-	SUB_DIR_PATH=""
+	SUB_DIR_PATH=""		#/var/log의 서브 디렉토리 경로를 초기화 함.
 }
 
 # /var/log에 위치한  서브 디렉토리의 로그를 초기화한다.
 function delete_sub_directory_logs()
 {
 	IS_SUB_DIR=1
-	#CURRENT_DIR=`pwd > current_dir.txt`
 
 	VAR_LOG_SUB_DIR_NAME_LISTS=var_log_sub_dir_name_list.txt
 
@@ -74,18 +73,11 @@ function delete_sub_directory_logs()
 		SUB_DIR_PATH=$BASE_TARGET/${var_log_sub_dir_name_lists[$index]}
 		echo -e "서브 디렉토리: $SUB_DIR_PATH"
 
-#ls -l --color=no $BASE_TARGET | egrep '^d' | awk -F " " '{print $9}' > $VAR_LOG_SUB_DIR_NAME_LISTS
-
-#for ((idx=0; idx < ${#var_log_sub_dir_name_lists[@]}; idx++)) # /var/log 서브 디렉토리 내부의 로그 초기화 및 삭제 작업
-#		{
-			#cd $TARGET/${var_log_sub_dir_name_lists[$idx]}
 
 			delete_log_files_incldue_date
 			clear_log_files
-#		}
 	}
 		IS_SUB_DIR=0 	# 초기화 (기본 경로를 /var/log로 설정함)
-		#cd $CURRNET_DIR
 }
 
 delete_log_files_incldue_date
