@@ -45,7 +45,7 @@ function delete_sub_directory_logs()
 
 	readarray -t var_log_sub_dir_name_list < $VAR_LOG_SUB_DIR_NAME_LIST
 
-	for ((idx=0; idx < ${#var_log_sub_dir_name_list[@]}; idx++)
+	for ((idx=0; idx < ${#var_log_sub_dir_name_list[@]}; idx++))
 	{
 		cd $TARGET/${#var_log_sub_dir_name_list[$idx]}
 		delete_log_files_incldue_date
