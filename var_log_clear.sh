@@ -52,6 +52,7 @@ function clear_log_files()
 	for ((idx=0; idx < ${#log_file_lists[@]}; idx++))
 	{
 		 echo > $TARGET/${log_file_lists[$idx]}
+		 cp /dev/null $TARGET/${log_file_lists[$idx]}	# 로그 파일의 크기를 0으로 설정함.
 	}
 
 	SUB_DIR_PATH=""		#/var/log의 서브 디렉토리 경로를 초기화 함.
@@ -72,7 +73,6 @@ function delete_sub_directory_logs()
 	{
 		SUB_DIR_PATH=$BASE_TARGET/${var_log_sub_dir_name_lists[$index]}
 		echo -e "서브 디렉토리: $SUB_DIR_PATH"
-
 
 			delete_log_files_incldue_date
 			clear_log_files
