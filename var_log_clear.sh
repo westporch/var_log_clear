@@ -17,7 +17,7 @@ function delete_log_files_incldue_date()
 	readarray -t daily_log_name_lists < $DAILY_LOG_NAME_LISTS
 	for ((idx=0; idx < ${#daily_log_name_lists[@]}; idx++))
 	{
-		rm -rf ${daily_log_name_lists[$idx]} # ex) maillog-20151002 삭제
+		rm -rf $TARGET/${daily_log_name_lists[$idx]} # ex) maillog-20151002 삭제
 	}
 }
 
@@ -32,7 +32,7 @@ function clear_log_files()
 
 	for ((idx=0; idx < ${#log_file_lists[@]}; idx++))
 	{
-		 echo > ${log_file_lists[$idx]}
+		 echo > $TARGET/${log_file_lists[$idx]}
 	}
 }
 
@@ -47,7 +47,7 @@ function delete_sub_directory_logs()
 
 	for ((idx=0; idx < ${#var_log_sub_dir_name_list[@]}; idx++))
 	{
-		cd $TARGET/${#var_log_sub_dir_name_list[$idx]}
+		cd $TARGET/${var_log_sub_dir_name_list[$idx]}
 		delete_log_files_incldue_date
 		clear_log_files
 	}
@@ -55,6 +55,6 @@ function delete_sub_directory_logs()
 	cd $CURRNET_DIR
 }
 
-delete_log_files_include_date
+delete_log_files_incldue_date
 clear_log_files
 delete_sub_directory_logs
