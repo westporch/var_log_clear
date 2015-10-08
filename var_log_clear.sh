@@ -90,11 +90,13 @@ function delete_and_clear_sub_directory_logs()
 
 function delete_temp_files()
 {
-	rm -rf $DAILY_LOG_NAME_LISTS
-	rm -rf $LOG_FILE_LISTS
-	rm -rf $VAR_LOG_SUB_DIR_NAME_LISTS
-}
+	garbage_arr=("$DAILY_LOG_NAME_LISTS" "$LOG_FILE_LISTS" "$VAR_LOG_SUB_DIR_NAME_LISTS")
 
+	for ((iter=0; iter < ${#garbage_arr[@]}; iter++))
+	{
+		rm -rf ${garbage_arr[$iter]}
+	}
+}
 
 delete_and_clear_base_directory_logs
 delete_and_clear_sub_directory_logs
