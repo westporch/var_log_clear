@@ -6,7 +6,7 @@
 #기타 로그 파일 형식도 삭제할 수 있도록 정규표현식을 개선해야함.
 
 BASE_TARGET=/var/log
-TARGET=""
+TARGET=/var/log
 IS_SUB_DIR=0 # 0 -> /var/log, 1 -> /var/log의 서브 디렉토리
 SUB_DIR_PATH="/var/log"
 
@@ -16,7 +16,6 @@ function check_sub_dir()
 		TARGET=$BASE_TARGET
 	else
 		TARGET=$TARGET
-		echo "check_sub_dir FUCTION $TARGET"
 	fi
 }
 
@@ -34,7 +33,6 @@ function delete_log_files_incldue_date()
 	{
 		rm -rf $TARGET/${daily_log_name_lists[$idx]} # ex) maillog-20151002 삭제
 	}
-
 }
 
 # maillog-20150824.gz, maillog-20151002 형식이 아닌 파일들을 초기화한다.
@@ -55,24 +53,34 @@ function clear_log_files()
 	}
 }
 
+function delete_and_clear_base_directory_logs()
+{
+	delete_log_files_incldue_date
+	clear_log_files
+	echo -e "$TARGET 로그 초기화 완료"
+
+	TARGET=/var/log	# 초기화 	
+	IS_SUB_DIR=0 	# 초기화 (기본 경로를 /var/log로 설정함)
+}
+
+
+
 # /var/log에 위치한 서브 디렉토리의 로그를 초기화한다.
-function delete_sub_directory_logs()
+function delete_and_clear_sub_directory_logs()
 {
 	IS_SUB_DIR=1
-
 	VAR_LOG_SUB_DIR_NAME_LISTS=var_log_sub_dir_name_list.txt
 
 	find $BASE_TARGET/* -type d > $VAR_LOG_SUB_DIR_NAME_LISTS
-
 
 	readarray -t var_log_sub_dir_name_lists < $VAR_LOG_SUB_DIR_NAME_LISTS
 
 	for ((index=0; index < ${#var_log_sub_dir_name_lists[@]}; index++)) #/var/log의 서브 디렉토리 경로 획득
 	{
 		TARGET=${var_log_sub_dir_name_lists[$index]}
-		echo -e "서브 디렉토리: $TARGET"
 			delete_log_files_incldue_date
 			clear_log_files
+		echo -e "|___________ $TARGET 로그 초기화 완료"
 
 	}
 		
@@ -80,6 +88,5 @@ function delete_sub_directory_logs()
 	IS_SUB_DIR=0 	# 초기화 (기본 경로를 /var/log로 설정함)
 }
 
-delete_log_files_incldue_date
-clear_log_files
-delete_sub_directory_logs
+delete_and_clear_base_directory_logs
+delete_and_clear_sub_directory_logs
