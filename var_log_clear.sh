@@ -88,5 +88,14 @@ function delete_and_clear_sub_directory_logs()
 	IS_SUB_DIR=0 	# 초기화 (기본 경로를 /var/log로 설정함)
 }
 
+function delete_temp_files()
+{
+	rm -rf $DAILY_LOG_NAME_LISTS
+	rm -rf $LOG_FILE_LISTS
+	rm -rf $VAR_LOG_SUB_DIR_NAME_LISTS
+}
+
+
 delete_and_clear_base_directory_logs
 delete_and_clear_sub_directory_logs
+delete_temp_files
