@@ -2,13 +2,18 @@
 
 #Seo Hyun Gwan
 
-#현재 완성한 소스는 CentOS 6~7을 기준으로 작성함.
 #기타 로그 파일 형식도 삭제할 수 있도록 정규표현식을 개선해야함.
 
 BASE_TARGET=/var/log
 TARGET=/var/log
 IS_SUB_DIR=0 # 0 -> /var/log, 1 -> /var/log의 서브 디렉토리
 SUB_DIR_PATH="/var/log"
+
+function initialization()
+{
+	TARGET=/var/log
+	IS_SUB_DIR=0
+}
 
 function check_sub_dir()
 {
@@ -59,11 +64,8 @@ function delete_and_clear_base_directory_logs()
 	clear_log_files
 	echo -e "$TARGET 로그 초기화 완료"
 
-	TARGET=/var/log	# 초기화 	
-	IS_SUB_DIR=0 	# 초기화 (기본 경로를 /var/log로 설정함)
+	initialization
 }
-
-
 
 # /var/log에 위치한 서브 디렉토리의 로그를 초기화한다.
 function delete_and_clear_sub_directory_logs()
@@ -83,9 +85,8 @@ function delete_and_clear_sub_directory_logs()
 		echo -e "|___________ $TARGET 로그 초기화 완료"
 
 	}
-		
-	TARGET=/var/log	# 초기화 	
-	IS_SUB_DIR=0 	# 초기화 (기본 경로를 /var/log로 설정함)
+
+	initialization
 }
 
 function delete_temp_files()
