@@ -99,14 +99,6 @@ function delete_temp_files()
 	}
 }
 
-function only_business_purpose()
-{
-	echo > /var/lib/plymouth/boot-duration
-	rm -f /boot/grub/device.map.backup
-	echo > /var/run/utmp
-}
-
 delete_and_clear_base_directory_logs
 delete_and_clear_sub_directory_logs
 delete_temp_files
-only_business_purpose
